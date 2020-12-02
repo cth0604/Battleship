@@ -8,8 +8,8 @@ describe("test Gameboard.placeShip()", () => {
 
   test("place ship on empty squares", () => {
     gameBoard.placeShip(shipOne, { x: 1, y: 1 });
-    expect(gameBoard.getBoard()[1][1]).toEqual({ ship: shipOne, index: 0 });
-    expect(gameBoard.getBoard()[1][2]).toEqual({ ship: shipOne, index: 1 });
+    expect(gameBoard.getBoard()[1][1]).toEqual({ ship: shipOne, index: 0, isAttacked: false });
+    expect(gameBoard.getBoard()[1][2]).toEqual({ ship: shipOne, index: 1, isAttacked: false });
   });
 
   test("ship length overflow horizontally", () => {
@@ -24,6 +24,12 @@ describe("test Gameboard.placeShip()", () => {
 
   test("place ship on occupied squares", () => {
     gameBoard.placeShip(shipVert, { x: 1, y: 0 });
+    expect(gameBoard.getBoard()[0][1]).toBeFalsy();
+    expect(gameBoard.getBoard()[1][1]).toBeTruthy();
+  });
+
+  test("place ship next to occupied squares", () => {
+    gameBoard.placeShip(shipOne, { x: 1, y: 0 });
     expect(gameBoard.getBoard()[0][1]).toBeFalsy();
     expect(gameBoard.getBoard()[1][1]).toBeTruthy();
   });

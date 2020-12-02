@@ -64,20 +64,23 @@ const Gameboard = () => {
       ships.push(ship);
       if (isHor) {
         for (let i = coordinate.x; i < coordinate.x + length; i++) {
-          board[coordinate.y][i] = { ship: ship, index: i - coordinate.x };
+          board[coordinate.y][i] = { ship: ship, index: i - coordinate.x, isAttacked: false };
         }
       } else {
         for (let i = coordinate.y; i < coordinate.y + length; i++) {
-          board[i][coordinate.x] = { ship: ship, index: i - coordinate.y };
+          board[i][coordinate.x] = { ship: ship, index: i - coordinate.y, isAttacked: false };
         }
       }
     }
   };
 
+  // expected not to be called on a coordinate that's already been attacked
+
   const receiveAttack = (coordinate) => {
     if (!board[coordinate.y][coordinate.x]) {
       board[coordinate.y][coordinate.x] = true;
     } else {
+      board[coordinate.y][coordinate.x].isAttacked = true;
       const { ship, index } = board[coordinate.y][coordinate.x];
       ship.hit(index);
     }
